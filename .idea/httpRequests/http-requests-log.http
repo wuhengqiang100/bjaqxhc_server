@@ -1,0 +1,105 @@
+GET http://localhost:8088/user/list
+Accept: */*
+Cache-Control: no-cache"
+
+"test":"123"
+
+<> 2020-02-20T101735.200.json
+
+###
+
+POST http://localhost:8088/login/account
+Accept: */*
+Cache-Control: no-cache"
+
+"test":"123"
+
+<> 2020-02-20T101652.415.json
+
+###
+
+POST http://localhost:8088/login/account
+Accept: */*
+Cache-Control: no-cache"
+
+"test":"123"
+
+<> 2020-02-20T101649.415.json
+
+###
+
+POST http://localhost:8088/login/account
+Accept: */*
+Cache-Control: no-cache"
+
+"test":"123"
+
+<> 2020-02-20T101637.415.json
+
+###
+
+POST http://localhost:8088/login/account
+Accept: */*
+Cache-Control: no-cache
+test: 123
+
+<> 2020-02-20T101525.400.json
+
+###
+
+POST http://localhost:8088/login/account
+Accept: */*
+Cache-Control: no-cache
+test: 123
+
+<> 2020-02-20T094919.400.json
+
+###
+
+POST http://localhost:8088/login/account
+Accept: */*
+Cache-Control: no-cache
+test: 123
+
+<> 2020-02-20T094915.400.json
+
+###
+
+POST http://localhost:8088/login/account
+Accept: */*
+Cache-Control: no-cache
+
+<> 2020-02-20T094751.400.json
+
+###
+
+GET http://localhost:8088/login/account
+Accept: */*
+Cache-Control: no-cache
+
+<> 2020-02-20T094725.405.json
+
+###
+
+GET http://localhost:8088/login/account
+Accept: */*
+Cache-Control: no-cache
+
+<> 2020-02-20T094707.405.json
+
+###
+
+GET http://localhost:8088/login/account
+Accept: */*
+Cache-Control: no-cache
+
+<> 2020-02-20T094618.405.json
+
+###
+
+GET http://localhost:8080/login/account
+Accept: */*
+Cache-Control: no-cache
+
+###
+

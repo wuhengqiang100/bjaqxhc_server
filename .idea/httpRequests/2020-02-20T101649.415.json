@@ -1,0 +1,7 @@
+{
+  "timestamp": "2020-02-20T14:16:49.939+0000",
+  "status": 415,
+  "error": "Unsupported Media Type",
+  "message": "Content type '*/*;charset=UTF-8' not supported",
+  "path": "/login/account"
+}
