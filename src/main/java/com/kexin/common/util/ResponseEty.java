@@ -1,6 +1,7 @@
 package com.kexin.common.util;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 北京开窗安全线返回实体类
@@ -40,6 +41,10 @@ public class ResponseEty extends HashMap<String, Object> {
 
     public ResponseEty setMessage(String message) {
         if (message != null) put("message", message);
+        return this;
+    }
+    public ResponseEty setData(Object data) {
+        if (data != null) put("data", data);
         return this;
     }
 

@@ -23,8 +23,8 @@ import java.util.List;
 @Transactional(rollbackFor = Exception.class)
 public class InitServiceImpl implements InitService {
 
-    @Autowired
-    UserService userService;
+    /*@Autowired
+    UserService userService;*/
 
     @Autowired
     RoleService roleService;
@@ -56,7 +56,8 @@ public class InitServiceImpl implements InitService {
         JSONObject workbenchMenu=getWorkbenchMenu();
         JSONArray workbenchChild= (JSONArray) workbenchMenu.get("children");
 
-        User user=userService.getUserAllInfoById(userId);
+        User user=new User();
+//        User user=userService.getUserAllInfoById(userId);
         List<Role> roleList=user.getRoleList();
         for (Role r: roleList) {
             List<GrantRoleFunctions> functionList=roleService.getFunctionIdsByRoleId(r.getRoleId());
@@ -136,7 +137,8 @@ public class InitServiceImpl implements InitService {
      */
     private InitUser getUserInfo(int userId){
         //用户信息
-        User currentUser=userService.getById(userId);
+        User currentUser=new User();
+//        User currentUser=userService.getById(userId);
         InitUser user=new InitUser();
         user.setName(currentUser.getOperatorName());
         user.setEmail(currentUser.getOperatorCode());

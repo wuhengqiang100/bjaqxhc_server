@@ -2,12 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kexin.admin.mapper.UserMapper">
 
-    <resultMap id="BaseResultMap" type="com.kexin.admin.entity.tables.User">
-        <id column="OPERATOR_ID" property="operatorId" />
+    <resultMap id="BaseResultMap" type="com.kexin.admin.entity.tables.LoginUser">
+<!--        <id column="OPERATOR_ID" property="operatorId" />
         <result column="OPERATOR_CODE" property="operatorCode" />
         <result column="OPERATOR_NAME" property="operatorName" />
         <result column="OPERATOR_LOGIN_NAME" property="operatorLoginName" />
-<!--        <result column="OPERATOR_LOGIN_PASS" property="operatorLoginPass" />-->
+&lt;!&ndash;        <result column="OPERATOR_LOGIN_PASS" property="operatorLoginPass" />&ndash;&gt;
         <result column="ROLE_STRING" property="roleString" />
         <result column="USE_FLAG" property="useFlag" />
         <result column="START_DATE" property="startDate" />
@@ -23,16 +23,16 @@
             <result column="ROLE_CODE" property="roleCode"></result>
             <result column="ROLE_NAME" property="roleName"></result>
             <result column="FUNCTION_STRING" property="functionString"></result>
-        </collection>
+        </collection>-->
     </resultMap>
 
-    <resultMap id="ResultMap01" type="com.kexin.admin.entity.tables.User">
+<!--    <resultMap id="ResultMap01" type="com.kexin.admin.entity.tables.LoginUser">
         <id column="OPERATOR_ID" property="operatorId" />
         <result column="OPERATOR_TYPE_ID" property="operatorTypeId" />
         <result column="OPERATOR_CODE" property="operatorCode" />
         <result column="OPERATOR_NAME" property="operatorName" />
         <result column="OPERATOR_LOGIN_NAME" property="operatorLoginName" />
-<!--        <result column="OPERATOR_LOGIN_PASS" property="operatorLoginPass" />-->
+&lt;!&ndash;        <result column="OPERATOR_LOGIN_PASS" property="operatorLoginPass" />&ndash;&gt;
         <result column="OPERATOR_TYPE_ID" property="operatorTypeId" />
         <result column="ROLE_STRING" property="roleString" />
         <result column="USE_FLAG" property="useFlag" />
@@ -46,7 +46,7 @@
         <result column="OPERATOR_CODE" property="operatorCode" />
         <result column="OPERATOR_NAME" property="operatorName" />
         <result column="OPERATOR_LOGIN_NAME" property="operatorLoginName" />
-<!--        <result column="OPERATOR_LOGIN_PASS" property="operatorLoginPass" />-->
+&lt;!&ndash;        <result column="OPERATOR_LOGIN_PASS" property="operatorLoginPass" />&ndash;&gt;
         <result column="ROLE_STRING" property="roleString" />
         <result column="USE_FLAG" property="useFlag" />
         <result column="START_DATE" property="startDate" />
@@ -57,8 +57,8 @@
             <result column="OPERATOR_TYPE_CODE" property="operatorTypeCode"></result>
             <result column="OPERATOR_TYPE_NAME" property="operatorTypeName"></result>
         </collection>
-    </resultMap>
-
+    </resultMap>-->
+<!--
     <resultMap id="ResultMap03" type="com.kexin.admin.entity.tables.User">
         <id column="OPERATOR_ID" property="operatorId" />
         <result column="OPERATOR_NAME" property="operatorName" />
@@ -158,6 +158,10 @@
         <where>
              dr.ROLE_ID=#{roleId}
         </where>
+
+    </select>-->
+    <select id="selectUserByName" resultType="com.kexin.admin.entity.tables.LoginUser">
+        SELECT * from  SYS_LOGIN_USER WHERE LOGIN_NAME=#{userName}
 
     </select>
 </mapper>

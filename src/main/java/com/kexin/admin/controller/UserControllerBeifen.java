@@ -3,13 +3,16 @@ package com.kexin.admin.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.kexin.admin.entity.tables.*;
+import com.kexin.admin.entity.tables.Identity;
+import com.kexin.admin.entity.tables.Role;
+import com.kexin.admin.entity.tables.User;
 import com.kexin.admin.entity.vo.CheckOptionsGroup;
 import com.kexin.admin.entity.vo.CheckOptionsType;
-import com.kexin.admin.service.*;
+import com.kexin.admin.service.IdentityService;
+import com.kexin.admin.service.RoleService;
+import com.kexin.admin.service.UserService;
 import com.kexin.common.base.PageData;
 import com.kexin.common.util.ResponseEntity;
-import com.kexin.common.util.ResponseEty;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,60 +28,17 @@ import java.util.stream.Collectors;
  */
 @Controller
 @RequestMapping("user")
-public class UserController {
+public class UserControllerBeifen {
 
-
-
+  /*  @Autowired
+    UserService userService;
 
     @Autowired
-    LoginUserService loginUserService;
+    IdentityService identityService;
 
-    /**
-     * 用户的登陆请求,获取token
-     * @param map
-     * @return
-     */
-    @PostMapping("login")
-    @ResponseBody
-    public ResponseEty login(@RequestBody Map map){
+    @Autowired
+    RoleService roleService;
 
-        return loginUserService.login(map);
-    }
-
-    /**
-     * 登陆成功后拿到个人信息
-     * @param String
-     * @return
-     */
-    @GetMapping("info")
-    @ResponseBody
-    public ResponseEty info(@RequestParam String token){
-        System.out.println(token);
-        return loginUserService.userInfo(token);
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
     *//**
      * @Description:用户数据表格list
      * @Author: 巫恒强  @Date: 2019/10/23 12:54

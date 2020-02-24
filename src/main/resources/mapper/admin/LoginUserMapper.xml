@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.kexin.admin.mapper.UserMapper">
+<mapper namespace="com.kexin.admin.mapper.LoginUserMapper">
 
     <resultMap id="BaseResultMap" type="com.kexin.admin.entity.tables.LoginUser">
 <!--        <id column="OPERATOR_ID" property="operatorId" />
@@ -25,6 +25,12 @@
             <result column="FUNCTION_STRING" property="functionString"></result>
         </collection>-->
     </resultMap>
+
+
+    <select id="selectLoginUserByName" resultType="com.kexin.admin.entity.tables.LoginUser">
+        SELECT * from  SYS_LOGIN_USERS WHERE LOGIN_NAME=#{userName}
+
+    </select>
 
 <!--    <resultMap id="ResultMap01" type="com.kexin.admin.entity.tables.LoginUser">
         <id column="OPERATOR_ID" property="operatorId" />
@@ -160,8 +166,5 @@
         </where>
 
     </select>-->
-    <select id="selectUserByName" resultType="com.kexin.admin.entity.tables.LoginUser">
-        SELECT * from  SYS_LOGIN_USER WHERE LOGIN_NAME=#{userName}
 
-    </select>
 </mapper>

@@ -31,8 +31,7 @@ public class RoleController {
     @Autowired
     RoleService roleService;
 
-    @Autowired
-    UserService userService;
+
 
     /**
      * @Description:角色数据表格list get
@@ -111,7 +110,8 @@ public class RoleController {
             Role oldRole=roleService.getById(role.getRoleId());
             role.setUseFlag(oldRole.getUseFlag());
             Boolean updateTrue=roleService.saveOrUpdate(role);
-            Boolean updateRoleString=userService.updateRoleString(oldRole,role);//更新groupString字段
+            Boolean updateRoleString=true;//更新groupString字段
+//            Boolean updateRoleString=userService.updateRoleString(oldRole,role);//更新groupString字段
             if(updateTrue && updateRoleString){//更新角色
                 if (this.updateGrantRoleToFunctions(role.getRoleId(),role.getFunctions())){
                     return ResponseEntity.success("保存成功");
