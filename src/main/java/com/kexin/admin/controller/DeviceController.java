@@ -11,11 +11,13 @@ import com.kexin.common.base.Data;
 import com.kexin.common.base.PageDataBase;
 import com.kexin.common.util.ResponseEntity;
 import com.kexin.common.util.ResponseEty;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.ServletRequest;
+import java.util.List;
 
 /**
  * 设备配置管理controller层
@@ -56,6 +58,100 @@ public class DeviceController {
         return devicePageData;
     }
 
+
+    @PostMapping("add")
+    @ResponseBody
+    @SysLog("保存新增设备数据")
+    public ResponseEntity add(@RequestBody  Device device){
+        if(StringUtils.isBlank(device.getMachineCode())){
+            return ResponseEntity.failure("设备编号不能为空");
+        }
+        if(StringUtils.isBlank(device.getMachineName())){
+            return ResponseEntity.failure("设备名称不能为空");
+        }
+    /*    if (device.getUseDeviceWasteNoJudge()<0 || device.getUseDeviceWasteNoJudge() >1){
+            return ResponseEntity.failure("设备的机检严重废人工干预标志,只能为0,1");
+        }*/
+        if (deviceService.deviceCountByCode(device.getMachineCode())>0){
+            return ResponseEntity.failure("设备编号已使用,请重新输入");
+        }
+        if (deviceService.deviceCountByName(device.getMachineName())>0){
+            return ResponseEntity.failure("设备名称已使用,请重新输入");
+        }
+        deviceService.saveDevice(device);
+        if(device.getMachineId()==null){
+            return ResponseEntity.failure("保存用户信息出错");
+        }
+        return ResponseEntity.success("保存成功");
+    }
+
+    @PostMapping("edit")
+    @ResponseBody
+    @SysLog("保存设备修改数据")
+    public ResponseEntity edit(@RequestBody  Device device){
+        if(device.getMachineId()==null){
+            return ResponseEntity.failure("设备ID不能为空");
+        }
+        if(StringUtils.isBlank(device.getMachineCode())){
+            return ResponseEntity.failure("设备编号不能为空");
+        }
+        if(StringUtils.isBlank(device.getMachineName())){
+            return ResponseEntity.failure("设备名称不能为空");
+        }
+/*        if (device.getUseDeviceWasteNoJudge()<0 || device.getUseDeviceWasteNoJudge() >1){
+            return ResponseEntity.failure("设备的机检严重废人工干预标志,只能为0,1");
+        }*/
+        Device oldDevice = deviceService.getById(device.getMachineId());
+        if(StringUtils.isNotBlank(device.getMachineCode())){
+            if(!device.getMachineCode().equals(oldDevice.getMachineCode())){
+                if(deviceService.deviceCountByCode(device.getMachineCode())>0){
+                    return ResponseEntity.failure("该设备编码已经使用");
+                }
+            }
+        }
+        if(StringUtils.isNotBlank(device.getMachineName())){
+            if(!device.getMachineName().equals(oldDevice.getMachineName())){
+                if(deviceService.deviceCountByName(device.getMachineName())>0){
+                    return ResponseEntity.failure("该设备名称已经使用");
+                }
+            }
+        }
+        deviceService.updateDevice(device);
+
+        if(device.getMachineId()==null){
+            return ResponseEntity.failure("保存设备信息出错");
+        }
+        return ResponseEntity.success("操作成功");
+    }
+
+    @PostMapping("delete")
+    @ResponseBody
+    @SysLog("删除设备数据(单个)")
+    public ResponseEntity delete(@RequestParam(value = "id",required = false)Integer id){
+        if(id==null){
+            return ResponseEntity.failure("参数错误");
+        }
+        Device device=deviceService.getById(id);
+        if(device == null){
+            return ResponseEntity.failure("设备不存在");
+        }
+        deviceService.deleteDevice(device);
+        return ResponseEntity.success("删除成功");
+    }
+    //
+//    @RequiresPermissions("sys:user:delete")
+    @PostMapping("deleteSome")
+    @ResponseBody
+    @SysLog("删除设备数据(多个)")
+    public ResponseEntity deleteSome(@RequestBody List<Device> Devices){
+        if(Devices == null || Devices.size()==0){
+            return ResponseEntity.failure("请选择需要删除的用户");
+        }
+        Devices.forEach(m -> deviceService.deleteDevice(m));
+        return ResponseEntity.success("批量删除成功");
+    }
+
+
     @PostMapping("updateUseFlag")
     @ResponseBody
     @SysLog("禁用或者启用设备")
@@ -89,7 +185,7 @@ public class DeviceController {
         if (map.size()>0){//编辑时获取已拥有的用户身份以及用户角色
             int deviceId= (int) map.get("deviceId");
             ownUser=userService.getById(deviceId);//已拥有的用户身份
-            responseEntity.setAny("checkDeviceIdentity",String.valueOf(ownUser.getDeviceTypeId()));
+            responseEntity.setAny("checkDeviceIdentity",String.valueOf(ownUser.getMachineTypeId()));
             ownRoleList=roleService.getOwnRoleByDeviceId(deviceId);//已拥有的角色 list
         }
         List<Identity> identityList=identityService.list();//所有用户类型
@@ -102,7 +198,7 @@ public class DeviceController {
                 .filter((Role r) -> (1!=r.getRoleId()))
                 .collect(Collectors.toList());    // 使用lambda表达式过滤出结果并放到result列表里，written by zhangchao
         resultIdentityList = (List<Identity>) identityList.stream()
-                .filter((Identity ide) -> (1!=ide.getDeviceTypeId()))
+                .filter((Identity ide) -> (1!=ide.getMachineTypeId()))
                 .collect(Collectors.toList());
 
         //组装,返回的用户分组
@@ -133,8 +229,8 @@ public class DeviceController {
             CheckOptionsType checkOptionsIdentity=new CheckOptionsType();
             Identity identity=new Identity();
             identity=resultIdentityList.get(i);
-            checkOptionsIdentity.setLabel(identity.getDeviceTypeName());
-            checkOptionsIdentity.setValue(String.valueOf(identity.getDeviceTypeId()));
+            checkOptionsIdentity.setLabel(identity.getMachineTypeName());
+            checkOptionsIdentity.setValue(String.valueOf(identity.getMachineTypeId()));
             arrayIdentity[i]=checkOptionsIdentity;
         }
         responseEntity.setAny("identityList",resultIdentityList);
@@ -176,26 +272,26 @@ public class DeviceController {
     @PostMapping("save")
     @ResponseBody
     public ResponseEntity save(@RequestBody User user){
-        if (StringUtils.isEmpty(user.getDeviceCode())){
+        if (StringUtils.isEmpty(user.getMachineCode())){
             return ResponseEntity.failure("用户编码不能为空");
-        }if (StringUtils.isEmpty(user.getDeviceName())){
+        }if (StringUtils.isEmpty(user.getMachineName())){
             return ResponseEntity.failure("用户名称不能为空");
-        }if(StringUtils.isBlank(user.getDeviceLoginName())){
+        }if(StringUtils.isBlank(user.getMachineLoginName())){
             return ResponseEntity.failure("账户名不能为空");
         }
-//        if(StringUtils.isBlank(user.getDeviceLoginPass())){
+//        if(StringUtils.isBlank(user.getMachineLoginPass())){
 //            return ResponseEntity.failure("账户密码不能为空");
 //        }
-        if (user.getDeviceTypeId()==0){
+        if (user.getMachineTypeId()==0){
             return ResponseEntity.failure("请选择一个用户类别");
         }if(user.getCheckUserRole().length==0){
             return ResponseEntity.failure("请选择一个用户角色");
         }
         ResponseEntity responseEntity=new ResponseEntity();
-        if (user.getDeviceId()==0){//新增
+        if (user.getMachineId()==0){//新增
             Boolean saveTrue=userService.save(this.checkGroupString(user));
             if(saveTrue){//保存用户身份类别
-                if (roleService.updateGrantRoleAndDevice(user.getDeviceId(),user.getCheckUserRole())){
+                if (roleService.updateGrantRoleAndDevice(user.getMachineId(),user.getCheckUserRole())){
                     return ResponseEntity.success("保存成功");
                 }else{
                     return ResponseEntity.success("分组保存失败");
@@ -205,11 +301,11 @@ public class DeviceController {
                 return ResponseEntity.failure("保存失败");
             }
         }else{//修改
-            User olduser=userService.getById(user.getDeviceId());
+            User olduser=userService.getById(user.getMachineId());
             user.setUseFlag(olduser.getUseFlag());//是否启用保留
             Boolean updateTrue=userService.updateById(this.checkGroupString(user));
 
-            Boolean updateGrantRole=roleService.updateGrantRoleAndDevice(user.getDeviceId(),user.getCheckUserRole());//角色关系表修改
+            Boolean updateGrantRole=roleService.updateGrantRoleAndDevice(user.getMachineId(),user.getCheckUserRole());//角色关系表修改
             if(updateTrue && updateGrantRole){
                 return ResponseEntity.success("保存成功");
             }else{
@@ -293,7 +389,7 @@ public class DeviceController {
             return ResponseEntity.failure("确认密码与新密码不一致");
         }
         User user = userService.getById(userId);
-        if(!user.getDeviceLoginPass().equals(originPass)){
+        if(!user.getMachineLoginPass().equals(originPass)){
             return ResponseEntity.failure("旧密码错误");
         }
         user.setDeviceLoginPass(newPass);
@@ -333,27 +429,27 @@ public class DeviceController {
     @ResponseBody
     public ResponseEntity userDataSave(@RequestBody User user){
         User qurreyUser=new User();
-        if (user.getDeviceId()==0){
+        if (user.getMachineId()==0){
             return ResponseEntity.failure("token已失效,请重新登录");
         }
-        if (StringUtils.isEmpty(user.getDeviceCode())){
+        if (StringUtils.isEmpty(user.getMachineCode())){
             return ResponseEntity.failure("用户编号不能为空");
         }
-        qurreyUser.setDeviceCode(user.getDeviceCode());
+        qurreyUser.setDeviceCode(user.getMachineCode());
         if (userService.selectByMapCount(qurreyUser)>1){
             return ResponseEntity.failure("用户编号已被使用,请重新输入");
         }
-        if (StringUtils.isEmpty(user.getDeviceName())){
+        if (StringUtils.isEmpty(user.getMachineName())){
             return ResponseEntity.failure("用户名称不能为空");
         }
-        qurreyUser.setDeviceName(user.getDeviceName());
+        qurreyUser.setDeviceName(user.getMachineName());
         if (userService.selectByMapCount(qurreyUser)>1){
             return ResponseEntity.failure("用户名称已被使用,请重新输入");
         }
-        if (StringUtils.isEmpty(user.getDeviceLoginName())){
+        if (StringUtils.isEmpty(user.getMachineLoginName())){
             return ResponseEntity.failure("账户名称不能为空");
         }
-        qurreyUser.setDeviceLoginName(user.getDeviceLoginName());
+        qurreyUser.setDeviceLoginName(user.getMachineLoginName());
         if (userService.selectByMapCount(qurreyUser)>1){
             return ResponseEntity.failure("账户名称已被使用,请重新输入");
         }

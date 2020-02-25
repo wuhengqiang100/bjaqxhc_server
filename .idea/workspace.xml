@@ -2,13 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9a3c8ce6-aa9a-466c-ae15-cc98621ce293" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/kexin/admin/controller/DeviceController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/kexin/admin/entity/tables/Device.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/kexin/admin/mapper/DeviceMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/kexin/admin/service/DeviceService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/kexin/admin/service/impl/DeviceServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/mapper/admin/DeviceMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kexin/admin/controller/DeviceController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kexin/admin/controller/DeviceController.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/classes/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -27,8 +21,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/kexin/admin/controller/DeviceController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="186">
-              <caret line="65" column="25" selection-start-line="65" selection-start-column="25" selection-end-line="65" selection-end-column="25" />
+            <state relative-caret-position="242">
+              <caret line="81" column="40" lean-forward="true" selection-start-line="81" selection-start-column="40" selection-end-line="81" selection-end-column="40" />
             </state>
           </provider>
         </entry>
@@ -102,8 +96,8 @@
         <option value="$PROJECT_DIR$/src/main/java/com/kexin/admin/mapper/DeviceMapper.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/kexin/admin/service/DeviceService.java" />
         <option value="$PROJECT_DIR$/src/main/resources/mapper/admin/DeviceMapper.xml" />
-        <option value="$PROJECT_DIR$/src/main/java/com/kexin/admin/controller/DeviceController.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/kexin/admin/service/impl/DeviceServiceImpl.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/kexin/admin/controller/DeviceController.java" />
       </list>
     </option>
   </component>
@@ -532,7 +526,7 @@
       <workItem from="1582165254102" duration="584000" />
       <workItem from="1582198718948" duration="8261000" />
       <workItem from="1582467464671" duration="14005000" />
-      <workItem from="1582596348548" duration="12180000" />
+      <workItem from="1582596348548" duration="13770000" />
     </task>
     <task id="LOCAL-00001" summary="初始创建git">
       <created>1581995299163</created>
@@ -545,10 +539,11 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="39261000" />
+    <option name="totallyTimeSpent" value="40851000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="848" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24262735" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -561,12 +556,12 @@
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.25279328" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.50558656" />
+      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.50418997" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Spring" order="7" weight="0.32960895" />
-      <window_info anchor="bottom" id="Terminal" order="8" weight="0.38128492" />
+      <window_info anchor="bottom" id="Terminal" order="8" weight="0.22206704" />
       <window_info anchor="bottom" id="Docker" order="9" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="bottom" id="Messages" order="11" weight="0.28351957" />
@@ -1159,8 +1154,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/kexin/admin/controller/DeviceController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="186">
-          <caret line="65" column="25" selection-start-line="65" selection-start-column="25" selection-end-line="65" selection-end-column="25" />
+        <state relative-caret-position="242">
+          <caret line="81" column="40" lean-forward="true" selection-start-line="81" selection-start-column="40" selection-end-line="81" selection-end-column="40" />
         </state>
       </provider>
     </entry>
