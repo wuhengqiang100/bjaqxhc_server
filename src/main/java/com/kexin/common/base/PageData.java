@@ -9,6 +9,13 @@ public class PageData<T> {
     private List<T> results;
     private String msg = "";
 
+/*    private Integer code = 20000;
+
+
+    private Long count;
+    private List<T> data;
+    private String msg = "";*/
+
     public Integer getCode() {
         return code;
     }
@@ -32,6 +39,8 @@ public class PageData<T> {
     public void setResults(List<T> results) {
         this.results = results;
     }
+
+
 
     public String getMsg() {
         return msg;
