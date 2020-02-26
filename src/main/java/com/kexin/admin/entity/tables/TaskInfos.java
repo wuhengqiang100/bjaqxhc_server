@@ -12,7 +12,7 @@ import java.io.Serializable;
  * 复点任务金额信息表,有具体的复点任务分类
  */
 @TableName(value = "wip_recount_task_infos")
-public class TaskInfos extends Model<TaskInfos> implements Serializable {
+public class TaskInfos{
 
     @TableId(type = IdType.AUTO)
     @TableField(value = "RECOUNT_TASK_INFO_ID")

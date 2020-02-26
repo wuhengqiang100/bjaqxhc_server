@@ -1,5 +1,6 @@
 package com.kexin.common.config;
 
+import com.baomidou.mybatisplus.extension.incrementer.OracleKeyGenerator;
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.PerformanceInterceptor;
 import org.mybatis.spring.annotation.MapperScan;
@@ -34,4 +35,16 @@ public class MybatisPlusConfig {
         return page;
     }
 
+
+    /**
+     * Sequence主键自增
+     *
+     * @return 返回oracle自增类
+     * @author
+     * @date 2019/1/2
+     */
+    @Bean
+    public OracleKeyGenerator oracleKeyGenerator(){
+        return new OracleKeyGenerator();
+    }
 }

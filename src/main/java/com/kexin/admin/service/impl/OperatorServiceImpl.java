@@ -59,7 +59,7 @@ public class OperatorServiceImpl extends ServiceImpl<OperatorMapper, Operator> i
 
     @Override
     public void lockOperator(Operator operator) {
-        operator.setUseFlag(operator.getUseFlag()==1?0:1);
+        operator.setUseFlag(operator.getUseFlag()?false:true);
         baseMapper.updateById(operator);
     }
 }

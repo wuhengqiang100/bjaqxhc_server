@@ -1,7 +1,6 @@
 package com.kexin.common.base;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -13,16 +12,16 @@ public abstract class TableEntity < T extends Model<?>> extends Model<T>{
      * 启用状态:0 禁止,1 启用
      */
     @TableField(value = "USE_FLAG", fill = FieldFill.INSERT_UPDATE)
-    protected int useFlag;
+    protected Boolean useFlag;
     /**
      * 启用时间,写入时间
      */
-    @TableField(value = "START_DATE", fill = FieldFill.INSERT)
+    @TableField(value = "START_DATE",strategy= FieldStrategy.IGNORED)
     protected Date startDate;
   /**
      * 禁用时间,结束时间
      */
-    @TableField(value = "END_DATE", fill = FieldFill.UPDATE)
+    @TableField(value = "END_DATE",  strategy = FieldStrategy.IGNORED)
     protected Date endDate;
 
     /**
@@ -31,12 +30,12 @@ public abstract class TableEntity < T extends Model<?>> extends Model<T>{
     @TableField(value = "NOTE")
     protected String note;
 
-    public void setUseFlag(int useFlag) {
-        this.useFlag = useFlag;
+    public Boolean getUseFlag() {
+        return useFlag;
     }
 
-    public int getUseFlag() {
-        return useFlag;
+    public void setUseFlag(Boolean useFlag) {
+        this.useFlag = useFlag;
     }
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")

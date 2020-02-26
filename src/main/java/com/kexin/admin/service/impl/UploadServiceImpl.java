@@ -25,7 +25,7 @@ public class UploadServiceImpl implements UploadService {
         String hash = FileUtil.calcETag(file.getInputStream(),file.getSize());
         wrapper.eq("hash",hash);
         wrapper.eq("source","local");
-        rescource = rescource.selectOne(wrapper);
+//        rescource = rescource.selectOne(wrapper);
         if( rescource!= null){
             return rescource.getWebUrl();
         }
@@ -51,7 +51,7 @@ public class UploadServiceImpl implements UploadService {
         rescource.setFileType(contentType);
         rescource.setWebUrl(webUrl);
         rescource.setSource("local");
-        rescource.insert();
+//        rescource.insert();
         return webUrl;
     }
 }

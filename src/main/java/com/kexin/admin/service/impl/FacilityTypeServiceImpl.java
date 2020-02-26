@@ -24,8 +24,8 @@ public class FacilityTypeServiceImpl extends ServiceImpl<FacilityTypeMapper, Fac
     @Override
     public ResponseEntity forbiddenFacilityType(int facilityTypeId) {
         FacilityType facilityType=baseMapper.selectById(facilityTypeId);
-        if (facilityType.getUseFlag()==0){
-            facilityType.setUseFlag(1);
+        if (!facilityType.getUseFlag()){
+            facilityType.setUseFlag(true);
             Integer i=baseMapper.updateById(facilityType);
             if (i!=0){
                 return ResponseEntity.success("启用类别成功");
@@ -33,7 +33,7 @@ public class FacilityTypeServiceImpl extends ServiceImpl<FacilityTypeMapper, Fac
                 return ResponseEntity.success("启用类别失败");
             }
         }else{
-            facilityType.setUseFlag(0);
+            facilityType.setUseFlag(false);
             Integer i=baseMapper.updateById(facilityType);
             if (i!=0){
                 return ResponseEntity.success("禁止类别成功");

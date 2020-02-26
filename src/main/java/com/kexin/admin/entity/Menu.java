@@ -7,7 +7,7 @@ import org.hibernate.validator.constraints.Length;
 import com.kexin.common.base.TreeEntity;
 
 @TableName("sys_menu")
-public class Menu extends TreeEntity<Menu> {
+public class Menu{
 /*
     private static final long serialVersionUID = 1L;
 

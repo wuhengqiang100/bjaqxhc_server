@@ -1,9 +1,7 @@
 package com.kexin.admin.entity.tables;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.kexin.admin.entity.tasks.ProductTaskAdd;
 import com.kexin.common.base.TableEntityTask;
 
@@ -15,7 +13,7 @@ import java.util.List;
  * 复点任务信息表
  */
 @TableName(value = "wip_recount_tasks")
-public class Tasks extends TableEntityTask<Tasks> implements Serializable  {
+public class Tasks {
 
     @TableId(type = IdType.AUTO)
     @TableField(value = "RECOUNT_TASK_ID")
@@ -37,6 +35,61 @@ public class Tasks extends TableEntityTask<Tasks> implements Serializable  {
 
     @TableField(value = "CONFIRM_OPERATOR_ID")
     private Integer confirmOperatorId; //完后确认人员ID(外键)
+    /**
+     * 启用状态:0 禁止,1 启用
+     */
+    @TableField(value = "USE_FLAG", fill = FieldFill.INSERT_UPDATE)
+    protected Boolean useFlag;
+    /**
+     * 启用时间,写入时间
+     */
+    @TableField(value = "START_DATE",strategy= FieldStrategy.IGNORED)
+    protected Date startDate;
+    /**
+     * 禁用时间,结束时间
+     */
+    @TableField(value = "END_DATE",  strategy = FieldStrategy.IGNORED)
+    protected Date endDate;
+
+    /**
+     * 说明
+     */
+    @TableField(value = "NOTE")
+    protected String note;
+
+    public Boolean getUseFlag() {
+        return useFlag;
+    }
+
+    public void setUseFlag(Boolean useFlag) {
+        this.useFlag = useFlag;
+    }
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
 
     @TableField(exist = false)
     private User recordOperator;//记录人员实体

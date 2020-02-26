@@ -2,12 +2,20 @@ package com.kexin.admin.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.kexin.admin.entity.tables.Device;
+import com.kexin.common.util.ResponseEty;
 import org.apache.ibatis.annotations.Param;
 
 /**
  * 设备配置,service接口层
  */
 public interface DeviceService extends IService<Device> {
+
+    /**
+     * 根据machineId更新useFlag禁用状态
+     * @param device
+     * @return
+     */
+    Integer updateUseFlag(@Param("device") Device device);
 
     /**
      * 根据机器编码计算数量,当前机器的code的数量
@@ -24,6 +32,12 @@ public interface DeviceService extends IService<Device> {
      */
     Integer deviceCountByName(@Param("deviceName") String deviceName);
 
+    /**
+     * 根据机器Ip计算数量
+     * @param deviceIp
+     * @return
+     */
+    Integer deviceCountByIp(@Param("deviceIp") String deviceIp);
     /**
      * 保存设备
      * @param device

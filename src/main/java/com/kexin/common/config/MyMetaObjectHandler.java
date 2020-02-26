@@ -18,8 +18,8 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
 
     @Override
     public void insertFill(MetaObject metaObject) {
-        setFieldValByName("startDate", new Date(), metaObject);
-        setFieldValByName("useFlag", 1, metaObject);
+//        setFieldValByName("startDate", new Date(), metaObject);
+//        setFieldValByName("useFlag", 1, metaObject);
 //        setFieldValByName("createDate", new Date(), metaObject);
 //        setFieldValByName("createId", MySysUser.id(), metaObject);
 //        setFieldValByName("updateDate", new Date(), metaObject);
@@ -28,7 +28,7 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
 
     @Override
     public void updateFill(MetaObject metaObject) {
-        setFieldValByName("endDate",new Date(),metaObject);
+//        setFieldValByName("endDate",new Date(),metaObject);
 //        setFieldValByName("updateDate", new Date(), metaObject);
 //        setFieldValByName("updateId", MySysUser.id(), metaObject);
     }

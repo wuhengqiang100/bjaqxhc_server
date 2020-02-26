@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.kexin.common.base.TableEntity;
 
 @TableName("sys_rescource")
-public class Rescource extends TableEntity<Rescource> {
+public class Rescource{
 
     private static final long serialVersionUID = 1L;
 

@@ -24,8 +24,8 @@ public class IdentityServiceImpl extends ServiceImpl<IdentityMapper, Identity> i
     @Override
     public ResponseEntity forbiddenIdentity(int identityId) {
         Identity identity=baseMapper.selectById(identityId);
-        if (identity.getUseFlag()==0){
-            identity.setUseFlag(1);
+        if (!identity.getUseFlag()){
+            identity.setUseFlag(true);
             Integer i=baseMapper.updateById(identity);
             if (i!=0){
                 return ResponseEntity.success("启用类别成功");
@@ -33,7 +33,7 @@ public class IdentityServiceImpl extends ServiceImpl<IdentityMapper, Identity> i
                 return ResponseEntity.success("启用类别失败");
             }
         }else{
-            identity.setUseFlag(0);
+            identity.setUseFlag(false);
             Integer i=baseMapper.updateById(identity);
             if (i!=0){
                 return ResponseEntity.success("禁止类别成功");

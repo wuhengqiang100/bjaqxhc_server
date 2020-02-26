@@ -75,8 +75,8 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     @Override
     public ResponseEntity forbiddenRole(int roleId) {
         Role role=baseMapper.selectById(roleId);
-        if (role.getUseFlag()==0){
-            role.setUseFlag(1);
+        if (!role.getUseFlag()){
+            role.setUseFlag(true);
             Integer i=baseMapper.updateRole(role);
             if (i!=0){
                 return ResponseEntity.success("启用角色成功");
@@ -84,7 +84,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
                 return ResponseEntity.success("启用角色失败");
             }
         }else{
-            role.setUseFlag(0);
+            role.setUseFlag(false);
             Integer i=baseMapper.updateRole(role);
             if (i!=0){
                 return ResponseEntity.success("禁止角色成功");

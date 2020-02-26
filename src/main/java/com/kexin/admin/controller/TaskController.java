@@ -120,7 +120,8 @@ public class TaskController {
     @ResponseBody
     public ResponseEntity products(@RequestBody Map map){
         ResponseEntity responseEntity=new ResponseEntity();
-        List<Products> productsList=productsService.list();
+        List<Products> productsList=new ArrayList<>();
+//        List<Products> productsList=productsService.list();
         responseEntity.setSuccess(true);
         responseEntity.setAny("productsList",productsList);
         return responseEntity;
@@ -171,7 +172,8 @@ public class TaskController {
         List<ProductTaskAdd> productIdOwn = taskInfosService.getProductTaskByTaskId(task.getRecountTaskId());
         responseEntity.setSuccess(true);
         responseEntity.setAny("task",task);
-        List<Products> productsList=productsService.list();
+        List<Products> productsList=new ArrayList<>();
+//        List<Products> productsList=productsService.list();
         responseEntity.setAny("productsList",productsList);
         responseEntity.setAny("productIdOwn",productIdOwn);
         return responseEntity;
@@ -190,7 +192,7 @@ public class TaskController {
 
         String recountTaskCode= task.getRecountTaskCode();
         Integer recountNum= task.getRecountNum();
-        String note= task.getNote();
+//        String note= task.getNote();
         Integer recordOperatorId= task.getRecordOperatorId();
         List<ProductTaskAdd> productIdsList= task.getProductIds();
         if (StringUtils.isBlank(recountTaskCode)){
@@ -204,7 +206,7 @@ public class TaskController {
         }
 
         task.setRecountTaskDate(new Date());
-        task.setStartDate(new Date());
+//        task.setStartDate(new Date());
         Boolean taskSaveTrue=tasksService.save(task);//保存总任务信息
         TaskInfos taskInfos=new TaskInfos();
         if (taskSaveTrue){
@@ -240,7 +242,7 @@ public class TaskController {
     public ResponseEntity edit(@RequestBody Tasks task ){
         String recountTaskCode= task.getRecountTaskCode();
         Integer recountNum= task.getRecountNum();
-        String note= task.getNote();
+//        String note= task.getNote();
         Integer recordOperatorId= task.getRecordOperatorId();
         List<ProductTaskAdd> productIdsList= task.getProductIds();
         if (StringUtils.isBlank(recountTaskCode)){

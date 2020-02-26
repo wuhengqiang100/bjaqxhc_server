@@ -5,8 +5,13 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kexin.admin.entity.tables.Device;
 import com.kexin.admin.mapper.DeviceMapper;
 import com.kexin.admin.service.DeviceService;
+import com.kexin.common.util.ResponseEty;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * 设备配置service层
@@ -17,10 +22,17 @@ public class DeviceServiceImpl extends ServiceImpl<DeviceMapper, Device> impleme
     //新增和编辑加上,事务回滚时用到
     //@Transactional(rollbackFor = Exception.class)
 
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Integer updateUseFlag(Device device) {
+        return baseMapper.updateUseFlag(device);
+    }
+
     @Override
     public Integer deviceCountByCode(String deviceCode) {
         QueryWrapper<Device> wrapper = new QueryWrapper<>();
-        wrapper.eq("DEVICE_CODE",deviceCode);
+        wrapper.eq("MACHINE_CODE",deviceCode);
         Integer count = baseMapper.selectCount(wrapper);
         return count;
     }
@@ -28,7 +40,15 @@ public class DeviceServiceImpl extends ServiceImpl<DeviceMapper, Device> impleme
     @Override
     public Integer deviceCountByName(String deviceName) {
         QueryWrapper<Device> wrapper = new QueryWrapper<>();
-        wrapper.eq("DEVICE_NAME",deviceName);
+        wrapper.eq("MACHINE_NAME",deviceName);
+        Integer count = baseMapper.selectCount(wrapper);
+        return count;
+    }
+
+    @Override
+    public Integer deviceCountByIp(String deviceIp) {
+        QueryWrapper<Device> wrapper = new QueryWrapper<>();
+        wrapper.eq("MACHINE_IP",deviceIp);
         Integer count = baseMapper.selectCount(wrapper);
         return count;
     }
@@ -57,7 +77,13 @@ public class DeviceServiceImpl extends ServiceImpl<DeviceMapper, Device> impleme
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void lockDevice(Device device) {
-        device.setUseFlag(device.getUseFlag()==1?0:1);
+        if (device.getUseFlag()){
+            device.setUseFlag(false);
+            device.setEndDate(new Date());
+        }else{
+            device.setUseFlag(true);
+            device.setEndDate(null);
+        }
         baseMapper.updateById(device);
     }
 }

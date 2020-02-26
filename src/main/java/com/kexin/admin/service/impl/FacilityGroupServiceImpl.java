@@ -27,8 +27,8 @@ public class FacilityGroupServiceImpl extends ServiceImpl<FacilityGroupMapper, F
     @Override
     public ResponseEntity forbiddenFacilityGroup(int facilityGroupId) {
         FacilityGroup facilityGroup=baseMapper.selectById(facilityGroupId);
-        if (facilityGroup.getUseFlag()==0){
-            facilityGroup.setUseFlag(1);
+        if (!facilityGroup.getUseFlag()){
+            facilityGroup.setUseFlag(true);
             Integer i=baseMapper.updateById(facilityGroup);
             if (i!=0){
                 return ResponseEntity.success("启用分组成功");
@@ -36,7 +36,7 @@ public class FacilityGroupServiceImpl extends ServiceImpl<FacilityGroupMapper, F
                 return ResponseEntity.success("启用分组失败");
             }
         }else{
-            facilityGroup.setUseFlag(0);
+            facilityGroup.setUseFlag(false);
             Integer i=baseMapper.updateById(facilityGroup);
             if (i!=0){
                 return ResponseEntity.success("禁止分组成功");
