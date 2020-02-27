@@ -2,23 +2,29 @@ package com.kexin.admin.entity.tables;
 
 import com.baomidou.mybatisplus.annotation.*;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.kexin.common.base.TableEntity;
 
-import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * 设备类别类别实体类
+ */
+@TableName("DIC_MACHINE_TYPE")
+@KeySequence(value = "SQ_DIC_MACHINE_TYPE", clazz = Integer.class)
+public class DeviceType {
 
-@TableName("dic_machine_types")
-public class FacilityType {
-    @TableId(type = IdType.AUTO)
+    private static final long serialVersionUID = 1L;
+
+
+    @TableId(type = IdType.INPUT)
     @TableField(value = "MACHINE_TYPE_ID")
-    private int machineTypeId;//设备类型id
+    private Integer machineTypeId;//设备类别id
 
     @TableField(value = "MACHINE_TYPE_CODE")
-    private String machineTypeCode;//设备类型编号
+    private String machineTypeCode; //设备类别代码
 
     @TableField(value = "MACHINE_TYPE_NAME")
-    private String machineTypeName;//设备类型名称
+    private String machineTypeName; //设备类别名称
+
     /**
      * 启用状态:0 禁止,1 启用
      */
@@ -41,48 +47,17 @@ public class FacilityType {
     @TableField(value = "NOTE")
     protected String note;
 
-    public Boolean getUseFlag() {
-        return useFlag;
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
     }
 
-    public void setUseFlag(Boolean useFlag) {
-        this.useFlag = useFlag;
-    }
-
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    public Date getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
-    }
-
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    public Date getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
-    }
-
-    public String getNote() {
-        return note;
-    }
-
-    public void setNote(String note) {
-        this.note = note;
-    }
-
-    public int getMachineTypeId() {
+    public Integer getMachineTypeId() {
         return machineTypeId;
     }
 
-    public void setMachineTypeId(int machineTypeId) {
+    public void setMachineTypeId(Integer machineTypeId) {
         this.machineTypeId = machineTypeId;
     }
-
 
     public String getMachineTypeCode() {
         return machineTypeCode;
@@ -98,5 +73,37 @@ public class FacilityType {
 
     public void setMachineTypeName(String machineTypeName) {
         this.machineTypeName = machineTypeName;
+    }
+
+    public Boolean getUseFlag() {
+        return useFlag;
+    }
+
+    public void setUseFlag(Boolean useFlag) {
+        this.useFlag = useFlag;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
     }
 }

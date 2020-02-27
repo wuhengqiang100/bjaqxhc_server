@@ -11,7 +11,6 @@ import com.kexin.admin.service.DeviceTypeService;
 import com.kexin.common.annotation.SysLog;
 import com.kexin.common.base.Data;
 import com.kexin.common.base.PageDataBase;
-import com.kexin.common.util.ResponseEntity;
 import com.kexin.common.util.ResponseEty;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,11 +21,11 @@ import javax.servlet.ServletRequest;
 import java.util.List;
 
 /**
- * 设备配置管理controller层
+ * 设备类别配置管理controller层
  */
 @Controller
-@RequestMapping("device")
-public class DeviceController {
+@RequestMapping("deviceType")
+public class DeviceTypeController {
 
     @Autowired
     DeviceService deviceService;
@@ -34,10 +33,22 @@ public class DeviceController {
     @Autowired
     DeviceTypeService deviceTypeService;
 
+    @GetMapping("listOption")
+    @ResponseBody
+    @SysLog("设备类别options列表获取")
+    public ResponseEty listopetion(){
+        ResponseEty responseEty=new ResponseEty();
+        QueryWrapper<DeviceType> deviceTypeWrapper = new QueryWrapper<>();
+        responseEty.setData(deviceTypeService.list(deviceTypeWrapper));
+        responseEty.setSuccess(20000);
+         return responseEty;
+    }
+
+
     //@CrossOrigin(origins = "http://192.168.0.100:4200", maxAge = 3600)
     @GetMapping("list")
     @ResponseBody
-    @SysLog("设备列表获取")
+    @SysLog("设备类别列表获取")
     public PageDataBase<Device> list(@RequestParam(value = "page",defaultValue = "1")Integer page,
                                        @RequestParam(value = "limit",defaultValue = "10")Integer limit,
                                        @RequestParam(value = "sort")String sort,
@@ -90,28 +101,28 @@ public class DeviceController {
 
     @PostMapping("create")
     @ResponseBody
-    @SysLog("新增设备数据")
+    @SysLog("新增设备类别数据")
     public ResponseEty create(@RequestBody  Device device){
         if(StringUtils.isBlank(device.getMachineCode())){
-            return ResponseEty.failure("设备编号不能为空");
+            return ResponseEty.failure("设备类别编号不能为空");
         }
         if(StringUtils.isBlank(device.getMachineName())){
-            return ResponseEty.failure("设备名称不能为空");
+            return ResponseEty.failure("设备类别名称不能为空");
         }
         if(StringUtils.isBlank(device.getMachineIp())){
-            return ResponseEty.failure("设备Ip不能为空");
+            return ResponseEty.failure("设备类别Ip不能为空");
         }
     /*    if (device.getUseDeviceWasteNoJudge()<0 || device.getUseDeviceWasteNoJudge() >1){
-            return ResponseEty.failure("设备的机检严重废人工干预标志,只能为0,1");
+            return ResponseEty.failure("设备类别的机检严重废人工干预标志,只能为0,1");
         }*/
         if (deviceService.deviceCountByCode(device.getMachineCode())>0){
-            return ResponseEty.failure("设备编号已使用,请重新输入");
+            return ResponseEty.failure("设备类别编号已使用,请重新输入");
         }
         if (deviceService.deviceCountByName(device.getMachineName())>0){
-            return ResponseEty.failure("设备名称已使用,请重新输入");
+            return ResponseEty.failure("设备类别名称已使用,请重新输入");
         }
         if (deviceService.deviceCountByIp(device.getMachineIp())>0){
-            return ResponseEty.failure("设备Ip已使用,请重新输入");
+            return ResponseEty.failure("设备类别Ip已使用,请重新输入");
         }
         deviceService.saveDevice(device);
         if(device.getMachineId()==null){
@@ -122,42 +133,42 @@ public class DeviceController {
 
     @PostMapping("update")
     @ResponseBody
-    @SysLog("保存设备修改数据")
+    @SysLog("保存设备类别修改数据")
     public ResponseEty update(@RequestBody  Device device){
         if(device.getMachineId()==null){
-            return ResponseEty.failure("设备ID不能为空");
+            return ResponseEty.failure("设备类别ID不能为空");
         }
         if(StringUtils.isBlank(device.getMachineCode())){
-            return ResponseEty.failure("设备编号不能为空");
+            return ResponseEty.failure("设备类别编号不能为空");
         }
         if(StringUtils.isBlank(device.getMachineName())){
-            return ResponseEty.failure("设备名称不能为空");
+            return ResponseEty.failure("设备类别名称不能为空");
         }
         if(StringUtils.isBlank(device.getMachineIp())){
-            return ResponseEty.failure("设备Ip不能为空");
+            return ResponseEty.failure("设备类别Ip不能为空");
         }
 /*        if (device.getUseDeviceWasteNoJudge()<0 || device.getUseDeviceWasteNoJudge() >1){
-            return ResponseEty.failure("设备的机检严重废人工干预标志,只能为0,1");
+            return ResponseEty.failure("设备类别的机检严重废人工干预标志,只能为0,1");
         }*/
         Device oldDevice = deviceService.getById(device.getMachineId());
         if(StringUtils.isNotBlank(device.getMachineCode())){
             if(!device.getMachineCode().equals(oldDevice.getMachineCode())){
                 if(deviceService.deviceCountByCode(device.getMachineCode())>0){
-                    return ResponseEty.failure("该设备编码已经使用");
+                    return ResponseEty.failure("该设备类别编码已经使用");
                 }
             }
         }
         if(StringUtils.isNotBlank(device.getMachineName())){
             if(!device.getMachineName().equals(oldDevice.getMachineName())){
                 if(deviceService.deviceCountByName(device.getMachineName())>0){
-                    return ResponseEty.failure("该设备名称已经使用");
+                    return ResponseEty.failure("该设备类别名称已经使用");
                 }
             }
         }
         if(StringUtils.isNotBlank(device.getMachineIp())){
             if(!device.getMachineIp().equals(oldDevice.getMachineIp())){
                 if(deviceService.deviceCountByIp(device.getMachineIp())>0){
-                    return ResponseEty.failure("设备Ip已使用,请重新输入");
+                    return ResponseEty.failure("设备类别Ip已使用,请重新输入");
                 }
             }
         }
@@ -171,14 +182,14 @@ public class DeviceController {
 
     @PostMapping("delete")
     @ResponseBody
-    @SysLog("删除设备数据(单个)")
+    @SysLog("删除设备类别数据(单个)")
     public ResponseEty delete(@RequestParam(value = "id",required = false)Integer id){
         if(id==null){
             return ResponseEty.failure("参数错误");
         }
         Device device=deviceService.getById(id);
         if(device == null){
-            return ResponseEty.failure("设备不存在");
+            return ResponseEty.failure("设备类别不存在");
         }
         deviceService.deleteDevice(device);
         return ResponseEty.success("删除成功");
@@ -187,7 +198,7 @@ public class DeviceController {
 //    @RequiresPermissions("sys:user:delete")
     @PostMapping("deleteSome")
     @ResponseBody
-    @SysLog("删除设备数据(多个)")
+    @SysLog("删除设备类别数据(多个)")
     public ResponseEty deleteSome(@RequestBody List<Device> Devices){
         if(Devices == null || Devices.size()==0){
             return ResponseEty.failure("请选择需要删除的信息");
@@ -199,14 +210,14 @@ public class DeviceController {
 
     @PostMapping("updateUseFlag")
     @ResponseBody
-    @SysLog("禁用或者启用设备")
+    @SysLog("禁用或者启用设备类别")
     public ResponseEty updateUseFlag(@RequestParam(value = "id",required = false)Integer id){
         if(id==null){
             return ResponseEty.failure("参数错误");
         }
         Device device=deviceService.getById(id);
         if(device == null){
-            return ResponseEty.failure("设备不存在");
+            return ResponseEty.failure("设备类别不存在");
         }
         deviceService.lockDevice(device);
         return ResponseEty.success("操作成功");

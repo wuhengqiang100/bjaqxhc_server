@@ -20,6 +20,9 @@ public class Device {
     @TableField(value = "MACHINE_ID")
     private Integer machineId;//设备id
 
+    @TableField(value = "MACHINE_Type_ID")
+    private Integer machineTypeId;//设备类别id
+
     @TableField(value = "MACHINE_CODE")
     private String machineCode; //设备代码
 
@@ -49,6 +52,29 @@ public class Device {
      */
     @TableField(value = "NOTE")
     protected String note;
+
+    @TableField(exist = false)
+    private DeviceType deviceType;
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public DeviceType getDeviceType() {
+        return deviceType;
+    }
+
+    public void setDeviceType(DeviceType deviceType) {
+        this.deviceType = deviceType;
+    }
+
+    public Integer getMachineTypeId() {
+        return machineTypeId;
+    }
+
+    public void setMachineTypeId(Integer machineTypeId) {
+        this.machineTypeId = machineTypeId;
+    }
 
     public Boolean getUseFlag() {
         return useFlag;
