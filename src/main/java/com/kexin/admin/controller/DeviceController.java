@@ -36,11 +36,25 @@ public class DeviceController {
     public PageDataBase<Device> list(@RequestParam(value = "page",defaultValue = "1")Integer page,
                                        @RequestParam(value = "limit",defaultValue = "10")Integer limit,
                                        @RequestParam(value = "sort")String sort,
+                                       @RequestParam(value = "useFlag",defaultValue = "")String useFlag,
+                                       @RequestParam(value = "title",defaultValue = "") String title,
                                        ServletRequest request){
 //        Map map = WebUtils.getParametersStartingWith(request, "s_");
         PageDataBase<Device> devicePageData = new PageDataBase<>();
         Data data=new Data();
         QueryWrapper<Device> deviceWrapper = new QueryWrapper<>();
+        if (sort.equals("+id")){
+            deviceWrapper.orderByAsc("MACHINE_ID");
+        }else{
+            deviceWrapper.orderByDesc("MACHINE_ID");
+        }
+
+        if (StringUtils.isNotEmpty(useFlag)){
+            deviceWrapper.eq("USE_FLAG",useFlag);
+        }
+        if (StringUtils.isNotEmpty(title)){
+            deviceWrapper.like("MACHINE_NAME",title);
+        }
 //        if(!map.isEmpty()){
 //            String useFlag = (String) map.get("useFlag");
 //            if(StringUtils.isNotBlank(useFlag)) {
