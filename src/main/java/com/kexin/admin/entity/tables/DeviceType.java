@@ -40,7 +40,6 @@ public class DeviceType {
      */
     @TableField(value = "END_DATE",  strategy = FieldStrategy.IGNORED)
     protected Date endDate;
-
     /**
      * 说明
      */
@@ -83,6 +82,7 @@ public class DeviceType {
         this.useFlag = useFlag;
     }
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     public Date getStartDate() {
         return startDate;
     }
@@ -91,6 +91,7 @@ public class DeviceType {
         this.startDate = startDate;
     }
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     public Date getEndDate() {
         return endDate;
     }

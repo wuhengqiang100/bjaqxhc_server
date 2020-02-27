@@ -8,26 +8,28 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 券别基础信息表
+ * 产品信息类
  */
-@TableName(value = "dic_products")
+@TableName(value = "DIC_PRODUCTS")
+@KeySequence(value = "SQ_DIC_PRODUCTS", clazz = Integer.class)
 public class Products{
+    private static final long serialVersionUID = 1L;
 
-    @TableId(type = IdType.AUTO)
+
+    @TableId(type = IdType.INPUT)
     @TableField(value = "PRODUCT_ID")
-    private Integer productId;//券别主键序号
-
-    @TableField(value = "PRODUCT_SERIES_CODE")
-    private String productSeriesCode;//券别主键序号
+    private Integer productId;//产品主键id
 
     @TableField(value = "PRODUCT_CODE")
-    private String productCode;//券别编号
+    private String productCode;//产品编号
 
     @TableField(value = "PRODUCT_NAME")
-    private String productName;//劵别名称
+    private String productName;//产品名称
+    @TableField(value = "ROLL_NUM")
+    private Integer rollNum;//卷数
+    @TableField(value = "WIDTH_NUM")
+    private Integer widthNum;//幅数
 
-    @TableField(value = "PRODUCT_AMOUNT")
-    private Integer productAmount;//券别面值（元）
     /**
      * 启用状态:0 禁止,1 启用
      */
@@ -50,38 +52,8 @@ public class Products{
     @TableField(value = "NOTE")
     protected String note;
 
-    public Boolean getUseFlag() {
-        return useFlag;
-    }
-
-    public void setUseFlag(Boolean useFlag) {
-        this.useFlag = useFlag;
-    }
-
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    public Date getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
-    }
-
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    public Date getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
-    }
-
-    public String getNote() {
-        return note;
-    }
-
-    public void setNote(String note) {
-        this.note = note;
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
     }
 
     public Integer getProductId() {
@@ -90,14 +62,6 @@ public class Products{
 
     public void setProductId(Integer productId) {
         this.productId = productId;
-    }
-
-    public String getProductSeriesCode() {
-        return productSeriesCode;
-    }
-
-    public void setProductSeriesCode(String productSeriesCode) {
-        this.productSeriesCode = productSeriesCode;
     }
 
     public String getProductCode() {
@@ -116,11 +80,51 @@ public class Products{
         this.productName = productName;
     }
 
-    public Integer getProductAmount() {
-        return productAmount;
+    public Integer getRollNum() {
+        return rollNum;
     }
 
-    public void setProductAmount(Integer productAmount) {
-        this.productAmount = productAmount;
+    public void setRollNum(Integer rollNum) {
+        this.rollNum = rollNum;
+    }
+
+    public Integer getWidthNum() {
+        return widthNum;
+    }
+
+    public void setWidthNum(Integer widthNum) {
+        this.widthNum = widthNum;
+    }
+
+    public Boolean getUseFlag() {
+        return useFlag;
+    }
+
+    public void setUseFlag(Boolean useFlag) {
+        this.useFlag = useFlag;
+    }
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    public Date getStartDate() {
+        return startDate;
+    }
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
     }
 }

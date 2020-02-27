@@ -27,8 +27,6 @@ import java.util.List;
 @RequestMapping("deviceType")
 public class DeviceTypeController {
 
-    @Autowired
-    DeviceService deviceService;
 
     @Autowired
     DeviceTypeService deviceTypeService;
@@ -49,83 +47,66 @@ public class DeviceTypeController {
     @GetMapping("list")
     @ResponseBody
     @SysLog("设备类别列表获取")
-    public PageDataBase<Device> list(@RequestParam(value = "page",defaultValue = "1")Integer page,
+    public PageDataBase<DeviceType> list(@RequestParam(value = "page",defaultValue = "1")Integer page,
                                        @RequestParam(value = "limit",defaultValue = "10")Integer limit,
                                        @RequestParam(value = "sort")String sort,
                                        @RequestParam(value = "useFlag",defaultValue = "")String useFlag,
                                        @RequestParam(value = "title",defaultValue = "") String title,
                                        ServletRequest request){
 //        Map map = WebUtils.getParametersStartingWith(request, "s_");
-        PageDataBase<Device> devicePageData = new PageDataBase<>();
+        PageDataBase<DeviceType> deviceTypePageData = new PageDataBase<>();
         Data data=new Data();
-        QueryWrapper<Device> deviceWrapper = new QueryWrapper<>();
+        QueryWrapper<DeviceType> deviceTypeWrapper = new QueryWrapper<>();
         if (sort.equals("+id")){
-            deviceWrapper.orderByAsc("MACHINE_ID");
+            deviceTypeWrapper.orderByAsc("MACHINE_TYPE_ID");
         }else{
-            deviceWrapper.orderByDesc("MACHINE_ID");
+            deviceTypeWrapper.orderByDesc("MACHINE_TYPE_ID");
         }
-
         if (StringUtils.isNotEmpty(useFlag)){
-            deviceWrapper.eq("USE_FLAG",useFlag);
+            deviceTypeWrapper.eq("USE_FLAG",useFlag);
         }
         if (StringUtils.isNotEmpty(title)){
-            deviceWrapper.like("MACHINE_NAME",title);
+            deviceTypeWrapper.like("MACHINE_TYPE_NAME",title);
         }
 //        if(!map.isEmpty()){
 //            String useFlag = (String) map.get("useFlag");
 //            if(StringUtils.isNotBlank(useFlag)) {
-//                deviceWrapper.eq("USE_FLAG", useFlag);
+//                deviceTypeWrapper.eq("USE_FLAG", useFlag);
 //            }
 //            String keys = (String) map.get("key");
 //            if(StringUtils.isNotBlank(keys)) {
-//                deviceWrapper.and(wrapper -> wrapper.like("MACHINE_NAME", keys));//模糊查询拼接
+//                deviceTypeWrapper.and(wrapper -> wrapper.like("MACHINE_NAME", keys));//模糊查询拼接
 //            }
 //        }
-        IPage<Device> devicePage = deviceService.page(new Page<>(page,limit),deviceWrapper);
-        data.setTotal(devicePage.getTotal());
-        data.setItems(setDeviceTypeToDevice(devicePage.getRecords()));
-        devicePageData.setData(data);
-        return devicePageData;
-    }
-
-    private List<Device> setDeviceTypeToDevice(List<Device> devices){
-        devices.forEach(r -> {
-            if(r.getMachineTypeId()!=null){
-                DeviceType deviceType=deviceTypeService.getById(r.getMachineTypeId());
-                r.setDeviceType(deviceType);
-            }
-        });
-         return devices;
+        IPage<DeviceType> deviceTypePage = deviceTypeService.page(new Page<>(page,limit),deviceTypeWrapper);
+        data.setTotal(deviceTypePage.getTotal());
+        data.setItems(deviceTypePage.getRecords());
+        deviceTypePageData.setData(data);
+        return deviceTypePageData;
     }
 
 
     @PostMapping("create")
     @ResponseBody
     @SysLog("新增设备类别数据")
-    public ResponseEty create(@RequestBody  Device device){
-        if(StringUtils.isBlank(device.getMachineCode())){
+    public ResponseEty create(@RequestBody  DeviceType deviceType){
+        if(StringUtils.isBlank(deviceType.getMachineTypeCode())){
             return ResponseEty.failure("设备类别编号不能为空");
         }
-        if(StringUtils.isBlank(device.getMachineName())){
+        if(StringUtils.isBlank(deviceType.getMachineTypeName())){
             return ResponseEty.failure("设备类别名称不能为空");
         }
-        if(StringUtils.isBlank(device.getMachineIp())){
-            return ResponseEty.failure("设备类别Ip不能为空");
-        }
-    /*    if (device.getUseDeviceWasteNoJudge()<0 || device.getUseDeviceWasteNoJudge() >1){
+    /*    if (deviceType.getUseDeviceTypeWasteNoJudge()<0 || deviceType.getUseDeviceTypeWasteNoJudge() >1){
             return ResponseEty.failure("设备类别的机检严重废人工干预标志,只能为0,1");
         }*/
-        if (deviceService.deviceCountByCode(device.getMachineCode())>0){
+        if (deviceTypeService.machineTypeCountByCode(deviceType.getMachineTypeCode())>0){
             return ResponseEty.failure("设备类别编号已使用,请重新输入");
         }
-        if (deviceService.deviceCountByName(device.getMachineName())>0){
+        if (deviceTypeService.machineTypeCountByName(deviceType.getMachineTypeName())>0){
             return ResponseEty.failure("设备类别名称已使用,请重新输入");
         }
-        if (deviceService.deviceCountByIp(device.getMachineIp())>0){
-            return ResponseEty.failure("设备类别Ip已使用,请重新输入");
-        }
-        deviceService.saveDevice(device);
-        if(device.getMachineId()==null){
+        deviceTypeService.saveDeviceType(deviceType);
+        if(deviceType.getMachineTypeId()==null){
             return ResponseEty.failure("保存信息出错");
         }
         return ResponseEty.success("保存成功");
@@ -134,47 +115,37 @@ public class DeviceTypeController {
     @PostMapping("update")
     @ResponseBody
     @SysLog("保存设备类别修改数据")
-    public ResponseEty update(@RequestBody  Device device){
-        if(device.getMachineId()==null){
+    public ResponseEty update(@RequestBody  DeviceType deviceType){
+        if(deviceType.getMachineTypeId()==null){
             return ResponseEty.failure("设备类别ID不能为空");
         }
-        if(StringUtils.isBlank(device.getMachineCode())){
+        if(StringUtils.isBlank(deviceType.getMachineTypeCode())){
             return ResponseEty.failure("设备类别编号不能为空");
         }
-        if(StringUtils.isBlank(device.getMachineName())){
+        if(StringUtils.isBlank(deviceType.getMachineTypeName())){
             return ResponseEty.failure("设备类别名称不能为空");
         }
-        if(StringUtils.isBlank(device.getMachineIp())){
-            return ResponseEty.failure("设备类别Ip不能为空");
-        }
-/*        if (device.getUseDeviceWasteNoJudge()<0 || device.getUseDeviceWasteNoJudge() >1){
+/*        if (deviceType.getUseDeviceTypeWasteNoJudge()<0 || deviceType.getUseDeviceTypeWasteNoJudge() >1){
             return ResponseEty.failure("设备类别的机检严重废人工干预标志,只能为0,1");
         }*/
-        Device oldDevice = deviceService.getById(device.getMachineId());
-        if(StringUtils.isNotBlank(device.getMachineCode())){
-            if(!device.getMachineCode().equals(oldDevice.getMachineCode())){
-                if(deviceService.deviceCountByCode(device.getMachineCode())>0){
+        DeviceType oldDeviceType = deviceTypeService.getById(deviceType.getMachineTypeId());
+        if(StringUtils.isNotBlank(deviceType.getMachineTypeCode())){
+            if(!deviceType.getMachineTypeCode().equals(oldDeviceType.getMachineTypeCode())){
+                if(deviceTypeService.machineTypeCountByCode(deviceType.getMachineTypeCode())>0){
                     return ResponseEty.failure("该设备类别编码已经使用");
                 }
             }
         }
-        if(StringUtils.isNotBlank(device.getMachineName())){
-            if(!device.getMachineName().equals(oldDevice.getMachineName())){
-                if(deviceService.deviceCountByName(device.getMachineName())>0){
+        if(StringUtils.isNotBlank(deviceType.getMachineTypeName())){
+            if(!deviceType.getMachineTypeName().equals(oldDeviceType.getMachineTypeName())){
+                if(deviceTypeService.machineTypeCountByName(deviceType.getMachineTypeName())>0){
                     return ResponseEty.failure("该设备类别名称已经使用");
                 }
             }
         }
-        if(StringUtils.isNotBlank(device.getMachineIp())){
-            if(!device.getMachineIp().equals(oldDevice.getMachineIp())){
-                if(deviceService.deviceCountByIp(device.getMachineIp())>0){
-                    return ResponseEty.failure("设备类别Ip已使用,请重新输入");
-                }
-            }
-        }
-        deviceService.updateDevice(device);
+        deviceTypeService.updateDeviceType(deviceType);
 
-        if(device.getMachineId()==null){
+        if(deviceType.getMachineTypeId()==null){
             return ResponseEty.failure("保存信息出错");
         }
         return ResponseEty.success("操作成功");
@@ -187,11 +158,11 @@ public class DeviceTypeController {
         if(id==null){
             return ResponseEty.failure("参数错误");
         }
-        Device device=deviceService.getById(id);
-        if(device == null){
+        DeviceType deviceType=deviceTypeService.getById(id);
+        if(deviceType == null){
             return ResponseEty.failure("设备类别不存在");
         }
-        deviceService.deleteDevice(device);
+        deviceTypeService.deleteDeviceType(deviceType);
         return ResponseEty.success("删除成功");
     }
     //
@@ -199,11 +170,11 @@ public class DeviceTypeController {
     @PostMapping("deleteSome")
     @ResponseBody
     @SysLog("删除设备类别数据(多个)")
-    public ResponseEty deleteSome(@RequestBody List<Device> Devices){
-        if(Devices == null || Devices.size()==0){
+    public ResponseEty deleteSome(@RequestBody List<DeviceType> DeviceTypes){
+        if(DeviceTypes == null || DeviceTypes.size()==0){
             return ResponseEty.failure("请选择需要删除的信息");
         }
-        Devices.forEach(m -> deviceService.deleteDevice(m));
+        DeviceTypes.forEach(m -> deviceTypeService.deleteDeviceType(m));
         return ResponseEty.success("批量删除成功");
     }
 
@@ -215,11 +186,11 @@ public class DeviceTypeController {
         if(id==null){
             return ResponseEty.failure("参数错误");
         }
-        Device device=deviceService.getById(id);
-        if(device == null){
+        DeviceType deviceType=deviceTypeService.getById(id);
+        if(deviceType == null){
             return ResponseEty.failure("设备类别不存在");
         }
-        deviceService.lockDevice(device);
+        deviceTypeService.lockDeviceType(deviceType);
         return ResponseEty.success("操作成功");
     }
 }

@@ -22,7 +22,7 @@ public class DeviceTypeServiceImpl extends ServiceImpl<DeviceTypeMapper, DeviceT
     @Override
     public Integer machineTypeCountByCode(String machineTypeCode) {
         QueryWrapper<DeviceType> wrapper = new QueryWrapper<>();
-        wrapper.eq("MACHINE_CODE",machineTypeCode);
+        wrapper.eq("MACHINE_TYPE_CODE",machineTypeCode);
         Integer count = baseMapper.selectCount(wrapper);
         return count;
     }
@@ -30,7 +30,7 @@ public class DeviceTypeServiceImpl extends ServiceImpl<DeviceTypeMapper, DeviceT
     @Override
     public Integer machineTypeCountByName(String machineTypeName) {
         QueryWrapper<DeviceType> wrapper = new QueryWrapper<>();
-        wrapper.eq("MACHINE_NAME",machineTypeName);
+        wrapper.eq("MACHINE_TYPE_NAME",machineTypeName);
         Integer count = baseMapper.selectCount(wrapper);
         return count;
     }
