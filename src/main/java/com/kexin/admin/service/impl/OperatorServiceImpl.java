@@ -1,18 +1,17 @@
 package com.kexin.admin.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kexin.admin.entity.tables.Operator;
 import com.kexin.admin.mapper.OperatorMapper;
 import com.kexin.admin.service.OperatorService;
-import com.kexin.common.util.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
+
 /**
- * 人员 配置service层
+ * 人员配置service层
  */
 @Service
 @Transactional(rollbackFor = Exception.class)
@@ -23,7 +22,7 @@ public class OperatorServiceImpl extends ServiceImpl<OperatorMapper, Operator> i
     @Override
     public Integer operatorCountByCode(String operatorCode) {
         QueryWrapper<Operator> wrapper = new QueryWrapper<>();
-        wrapper.eq("MACHINE_CODE",operatorCode);
+        wrapper.eq("OPERATOR_CODE",operatorCode);
         Integer count = baseMapper.selectCount(wrapper);
         return count;
     }
@@ -31,7 +30,7 @@ public class OperatorServiceImpl extends ServiceImpl<OperatorMapper, Operator> i
     @Override
     public Integer operatorCountByName(String operatorName) {
         QueryWrapper<Operator> wrapper = new QueryWrapper<>();
-        wrapper.eq("MACHINE_NAME",operatorName);
+        wrapper.eq("OPERATOR_NAME",operatorName);
         Integer count = baseMapper.selectCount(wrapper);
         return count;
     }
@@ -58,8 +57,15 @@ public class OperatorServiceImpl extends ServiceImpl<OperatorMapper, Operator> i
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void lockOperator(Operator operator) {
-        operator.setUseFlag(operator.getUseFlag()?false:true);
+        if (operator.getUseFlag()){
+            operator.setUseFlag(false);
+            operator.setEndDate(new Date());
+        }else{
+            operator.setUseFlag(true);
+            operator.setEndDate(null);
+        }
         baseMapper.updateById(operator);
     }
 }
